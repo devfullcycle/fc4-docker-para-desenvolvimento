@@ -4,5 +4,23 @@ RUN apt update && \
     apt install -y curl && \
     npm install -g nodemon
 
+# debian
+# RUN useradd -m -u 1000 xpto - criar um usuario
+# RUN usermod -u 1000 xpto
+
+#alpine
+#RUN adduser -D -u 1000 xpto - criar um usuario
+#RUN sed -i 's/1000/1001/g' /etc/passwd
+
+# estabelecendo um usuário não root
+# não existe um momento certo para estabelecer um usuário, mas porque os comandos abaixo
+# vão precisar de um usuário não root, porque senão, os arquivos criados vão pertencer ao root
+# criando problemas de permissão
+# Nesta imagem node já existe um usuário node, então vamos usá-lo
+# mas, em outras imagens, pode ser necessário criar um usuário não root
+USER node
+
+
+
 
 
