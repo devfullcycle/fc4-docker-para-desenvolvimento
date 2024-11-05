@@ -21,6 +21,6 @@ RUN apt update && \
 USER node
 
 
-
+WORKDIR /home/node/app
 
 
