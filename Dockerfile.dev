@@ -12,6 +12,9 @@ RUN apt update && \
 #RUN adduser -D -u 1000 xpto - criar um usuario
 #RUN sed -i 's/1000/1001/g' /etc/passwd
 
+COPY start.sh /
+RUN chmod +x /start.sh
+
 # estabelecendo um usuário não root
 # não existe um momento certo para estabelecer um usuário, mas porque os comandos abaixo
 # vão precisar de um usuário não root, porque senão, os arquivos criados vão pertencer ao root
@@ -32,10 +35,11 @@ WORKDIR /home/node/app
 # o comando --chown=node:node faz com que o arquivo copiado pertença ao usuário node
 # a dupla COPY e RUN é uma técnica de cache, se o package.json não mudar, o cache é aproveitado
 # ou seja, está usado a node_modules do cache
-COPY package.json ./
-RUN npm install
+# COPY package.json ./
+# RUN npm install
 
 EXPOSE 3000
 
-CMD ["tail", "-f", "/dev/null"]
+#CMD ["tail", "-f", "/dev/null"]
 
+CMD ["/start.sh"] 
