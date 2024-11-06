@@ -1,6 +1,8 @@
 services:
   web:
     build: 
+      args:
+        - NODEMON_VERSION=${NODEMON_VERSION:-3.1.7}
       context: .
       dockerfile: Dockerfile.dev
     volumes:
