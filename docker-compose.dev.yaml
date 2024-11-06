@@ -9,9 +9,15 @@ services:
       - .:/home/node/app
     ports:
       - 3000:3000
-  
+    env_file:
+      - .env
+      # - path: .env.override
+      #   required: false
+
+      
   db:
     image: mysql:8.0.30-debian
+    # poderia usar um env_file para trazer mais dinamismo
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: my_database
