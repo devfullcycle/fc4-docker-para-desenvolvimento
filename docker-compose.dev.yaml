@@ -5,3 +5,11 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - .:/home/node/app
+    ports:
+      - 3000:3000
+  
+  db:
+    image: mysql:8.0.30-debian
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: my_database
