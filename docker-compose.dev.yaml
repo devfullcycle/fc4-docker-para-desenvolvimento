@@ -17,7 +17,11 @@ services:
       db:
         condition: service_healthy
         #restart: true # se o container deve ser reiniciado se caso a dependência falhar
-      
+    # networks:
+    #   - external-api_default
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
   db:
     image: mysql:8.0.30-debian
     #restart: on-failure:5 | always
@@ -34,6 +38,22 @@ services:
       #ou seja, o healthcheck será executado a cada 30 segundos, com um timeout de 5 segundos, 5 tentativas e um tempo de espera inicial de 10 segundos
     # depends_on:
     #   - xpto
+    # networks:
+    #   - external-api_default
+      
 
   # xpto: apenas para exemplificar o uso do restart no container do mysql
   #   image: xpto:latest
+
+# networks:
+#   external-api_default:
+#     external: true
+
+
+# para host.docker.internal
+
+# mac ou linux (/etc/hosts)
+# windows (C:\Windows\System32\drivers\etc\hosts)
+
+# 127.0.0.1 host.docker.internal 
+
