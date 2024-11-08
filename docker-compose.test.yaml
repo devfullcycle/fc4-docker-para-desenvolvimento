@@ -34,7 +34,6 @@ services:
     #   - xpto
     # networks:
     #   - external-api_default
-      
 
   # xpto: apenas para exemplificar o uso do restart no container do mysql
   #   image: xpto:latest
