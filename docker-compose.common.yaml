@@ -1,0 +1,21 @@
+services:
+  web:
+    build: 
+      args:
+        - NODEMON_VERSION=${NODEMON_VERSION:-3.1.7}
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/home/node/app
+    env_file:
+      - .env
+      # - path: .env.override
+      #   required: false
+    depends_on:
+      db:
+        condition: service_healthy
+        #restart: true # se o container deve ser reiniciado se caso a dependência falhar
+    # networks:
+    #   - external-api_default
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
