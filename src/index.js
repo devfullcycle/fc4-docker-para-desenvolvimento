@@ -7,7 +7,8 @@ app.get('/', (req, res) => {
 })
 
 app.get('/external-api', async function(req, res){
-  const address = 'http://host.docker.internal:9000/products';
+  //const address = 'http://host.docker.internal:9000/products';
+  const address = 'http://external-api:9000/products';
   const response = await fetch(address)
   const data = await response.json()
   res.send(data)
