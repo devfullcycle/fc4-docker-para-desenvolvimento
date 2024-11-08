@@ -19,3 +19,5 @@ services:
     #   - external-api_default
     extra_hosts:
       - "host.docker.internal:host-gateway"
+  
+  # o mysql poderia vir para o common
