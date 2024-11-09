@@ -41,6 +41,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: my_database
+    ports:
+      - 3306:3306
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 30s # interval - com que frequência o healthcheck é executado
