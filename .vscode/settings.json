@@ -1,0 +1,19 @@
+{
+    // "terminal.integrated.defaultProfile.linux": "dev",
+    // "terminal.integrated.profiles.linux": {
+    //     "dev": {
+    //         "path": "zsh",
+    //         "args": ["-l"],
+    //         "env": {
+    //             "COMPOSE_FILE": "docker-compose.dev.yaml"
+    //         }
+    //     },
+    //     "test": {
+    //         "path": "zsh",
+    //         "args": ["-l"],
+    //         "env": {
+    //             "COMPOSE_FILE": "docker-compose.dev.yaml"
+    //         }
+    //     }
+    // }
+}
