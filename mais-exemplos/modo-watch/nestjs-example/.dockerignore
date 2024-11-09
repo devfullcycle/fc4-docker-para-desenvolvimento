@@ -1,0 +1,4 @@
+node_modules/
+.git/
+docker-compose.watch.yaml
+Dockerfile

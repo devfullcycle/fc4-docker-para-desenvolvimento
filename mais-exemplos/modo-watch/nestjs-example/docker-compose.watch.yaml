@@ -1,0 +1,26 @@
+services:
+  app:
+    build: .
+    command: npm run start:dev
+    restart: always
+    ports:
+      - 3000:3000
+    develop:
+      watch:
+        # sync, sync+restart, rebuild
+        - action: sync
+          path: .
+          target: /home/node/app
+          # ignore:
+          #   - node_modules/
+          #   - .gitignore
+          #x-initialSync: true
+        
+        # para uma situação que você já roda o projeto o rebuild vale a pena, mas usando um tail -f /dev/null, pode não ser necessário, pois o container não precisa reiniciar
+        - action: rebuild
+          path: package.json
+        
+# nginx, mysql, postgresql - editar arquivos que você precisaria reiniciar manualmente o processo\
+# watch - dev padrão, ou testes de versões definitivas para CI, Prod
+
+# dev container - watch
