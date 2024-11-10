@@ -1,0 +1,87 @@
+include:
+  - ./external-api/docker-compose.external-api.yaml
+
+services:
+  web1:
+    extends:
+      file: docker-compose.common.yaml
+      service: web
+    ports:
+      - 3000:3000
+    depends_on:
+      db:
+        condition: service_healthy
+        #restart: true # se o container deve ser reiniciado se caso a dependência falhar
+
+  web2:
+    extends:
+      file: docker-compose.common.yaml
+      service: web
+    profiles: [nginx]
+    ports:
+      - 3001:3000
+    depends_on:
+      db:
+        condition: service_healthy
+        #restart: true # se o container deve ser reiniciado se caso a dependência falhar
+
+  nginx:
+    image: nginx:1.19.10-alpine
+    profiles: [nginx]
+    restart: always
+    ports:
+      - 4000:80
+    volumes:
+      - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+
+  db:
+    image: mysql:8.0.30-debian
+    #restart: on-failure:5 | always
+    # poderia usar um env_file para trazer mais dinamismo
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: my_database
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s # interval - com que frequência o healthcheck é executado
+      timeout: 5s # timeout - quanto tempo esperar antes de considerar o healthcheck falhado
+      retries: 5 # retries - número de tentativas antes de considerar o container como falhado
+      start_period: 10s # start_period - tempo de espera antes de iniciar o healthcheck
+      #ou seja, o healthcheck será executado a cada 30 segundos, com um timeout de 5 segundos, 5 tentativas e um tempo de espera inicial de 10 segundos
+    # depends_on:
+    #   - xpto
+    # networks:
+    #   - external-api_default
+  
+  phpmyadmin:
+    image: phpmyadmin:5.2.1-apache
+    profiles: [debug]
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+    ports:
+      - 8080:80
+    depends_on:
+      db:
+        condition: service_healthy
+      
+
+  # xpto: apenas para exemplificar o uso do restart no container do mysql
+  #   image: xpto:latest
+
+# networks:
+#   external-api_default:
+#     external: true
+
+
+# para host.docker.internal
+
+# mac ou linux (/etc/hosts)
+# windows (C:\Windows\System32\drivers\etc\hosts)
+
+# 127.0.0.1 host.docker.internal 
+
