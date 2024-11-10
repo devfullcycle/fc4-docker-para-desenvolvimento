@@ -1,0 +1,5 @@
+.history/
+node_modules/
+.env
+docker-compose.override.yaml
+.docker/mysql/dbdata/
