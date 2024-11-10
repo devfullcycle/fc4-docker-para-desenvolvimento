@@ -1,0 +1,47 @@
+FROM node:22.8.0-slim
+
+ARG NODEMON_VERSION=3.1.7
+
+RUN apt update && \
+    apt install -y curl && \
+    npm install -g nodemon@${NODEMON_VERSION}
+
+# debian
+# RUN useradd -m -u 1000 xpto - criar um usuario
+# RUN usermod -u 1000 xpto
+
+#alpine
+#RUN adduser -D -u 1000 xpto - criar um usuario
+#RUN sed -i 's/1000/1001/g' /etc/passwd
+
+COPY start.sh /
+RUN chmod +x /start.sh
+
+# estabelecendo um usuário não root
+# não existe um momento certo para estabelecer um usuário, mas porque os comandos abaixo
+# vão precisar de um usuário não root, porque senão, os arquivos criados vão pertencer ao root
+# criando problemas de permissão
+# Nesta imagem node já existe um usuário node, então vamos usá-lo
+# mas, em outras imagens, pode ser necessário criar um usuário não root
+USER node
+
+# estabelecendo o diretório de trabalho
+# isto é importante, porque a partir de agora, todos os comandos vão ser executados neste diretório
+# quando entrar no container, vai estar neste diretório
+# se a pasta não existir, ele vai criar e pertenceria ao root
+WORKDIR /home/node/app
+
+# copiando o package.json para o diretório de trabalho
+# o comando COPY é executado como root, então o arquivo copiado pertenceria ao root
+# mas, como estabelecemos um usuário não root, o arquivo copiado vai pertencer ao usuário node
+# o comando --chown=node:node faz com que o arquivo copiado pertença ao usuário node
+# a dupla COPY e RUN é uma técnica de cache, se o package.json não mudar, o cache é aproveitado
+# ou seja, está usado a node_modules do cache
+# COPY package.json ./
+# RUN npm install
+
+EXPOSE 3000
+
+#CMD ["tail", "-f", "/dev/null"]
+
+CMD ["/start.sh"] 

@@ -1,0 +1,20 @@
+services:
+  external-api:
+    image: node:22.8.0-slim
+    command: npx json-server --watch api.json --port 9000
+    ports:
+      - 9000:9000
+    working_dir: /home/node/app
+    volumes:
+      - ./:/home/node/app
+    # networks:
+    #   - my-external-network
+
+# networks:
+#   my-external-network:
+#     external: true
+
+
+# me comunicar com aplicações que estão em redes diferentes
+  # container
+  # e na máquina host
