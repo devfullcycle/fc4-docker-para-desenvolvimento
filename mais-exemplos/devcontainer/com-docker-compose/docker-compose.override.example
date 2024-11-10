@@ -1,0 +1,8 @@
+services:
+
+  db:
+    ports:
+      - 33060:3306
+    volumes:
+      - ./.docker/mysql/dbdata:/var/lib/mysql
+  
